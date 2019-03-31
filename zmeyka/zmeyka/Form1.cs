@@ -19,11 +19,15 @@ namespace zmeyka
         int firstAppleX = 0;
         int firstAppleY = 0;
         int score = 0;
-        List<int> tailXCoordinate = new List<int>();
-        List<int> tailYCoordinate = new List<int>(); 
+        List<Tail> Tail = new List<Tail>();
+        //List<int> tailXCoordinate = new List<int>();
+        //List<int> tailYCoordinate = new List<int>();
+        //Tail snake_sTail = new Tail();
+        string direction = "";
         public Form1()
         {
             InitializeComponent();
+            //TimerWork.
         }
 
         private void Paint(object sender, PaintEventArgs e)
@@ -41,6 +45,7 @@ namespace zmeyka
             }
             Graphics canvas = e.Graphics;
             canvas.FillEllipse(Brushes.LimeGreen, new RectangleF(xCordinate, yCordinate, snakeWidth , snakeHeigth));
+            GenerateTail(canvas);
             GenerateApples();
             Graphics apple = e.Graphics;
             apple.FillEllipse(Brushes.BlueViolet, new RectangleF(firstAppleX,firstAppleY,10,10));
@@ -69,40 +74,47 @@ namespace zmeyka
             
             if (e.KeyCode==Keys.Up)
             {
-                yCordinate -= 10;                
+                direction = "up";
+                //yCordinate -= 10;                
             }
             else if (e.KeyCode == Keys.Down)
             {
-                yCordinate += 10;
+                direction = "down";
+                //yCordinate += 10;
             }
             else if (e.KeyCode == Keys.Left)
             {
-                xCordinate -= 10;
+                direction = "left";
+                //xCordinate -= 10;
             }
             else if (e.KeyCode == Keys.Right)
             {
-                xCordinate += 10;
+                direction = "rigth";
+                //xCordinate += 10;
 
             }
             GameArea.Invalidate();
-            if (xCordinate < 0 | xCordinate>GameArea.Width-50 | yCordinate<0 | yCordinate>GameArea.Height-50)
-            {
-                MessageBox.Show("ты сломался ");
-
-                //GameArea.Invalidate();
-            }
-            ApplesEating();
+            //if (xCordinate < 0 | xCordinate>GameArea.Width-50 | yCordinate<0 | yCordinate>GameArea.Height-50)
+            //{
+            //    MessageBox.Show("ты сломался ");               
+            //}
+            //ApplesEating();
         }
+        //int intermidiate1 = 0, intermidiate2 = 0;
         private void ApplesEating()
         {
             if (new Rectangle(xCordinate,yCordinate,50,50).IntersectsWith(new Rectangle(firstAppleX,firstAppleY,10,10)))
             {
-
-                MessageBox.Show("Ням");
                 score++;
                 firstAppleX = 0;
                 firstAppleY = 0;
+                MessageBox.Show("Ням +"+Tail.Count);              
                 GenerateApples();
+                Tail partOfTail = new Tail(XcordinateForNewTail,YcordinateForNewTail);
+                //РАБОЧЕЕ ДОБАВЛЕНИЕ ЭЛЕМЕНТА ИЗ СПИСКА
+                //intermidiate1 += 10;
+                //intermidiate2 += 10;
+                Tail.Add(partOfTail);
                 GameArea.Invalidate();
             }
         }
@@ -122,9 +134,67 @@ namespace zmeyka
                     break;
             }
         }
-        private void GenerateTail(int xCordinateForTail , int yCordinateForTail )
+        private void GenerateTail(Graphics canvas)
         {
-            
+            for (int counter = 0 ; counter<Tail.Count  ; counter++)
+            {
+                canvas.FillEllipse(Brushes.LimeGreen, new RectangleF(Tail[counter].X, Tail[counter].Y, snakeWidth, snakeHeigth));
+            }
+        }
+        private void GenerateCordinateForTail()
+        {
+            switch (direction)
+            {
+                case "":
+
+                    break;
+                case "":
+                    break;
+                case "":
+                    break;
+                case "":
+                    break;
+            }
+        }
+        int XcordinateForNewTail=0, YcordinateForNewTail=0;
+        private void WorkTimer(object sender, EventArgs e)
+        {
+            switch (direction)
+            {
+                case "up":
+                    yCordinate -= 10;
+                    break;
+                case "down":
+                    yCordinate += 10;
+                    break;
+                case "left":
+                    xCordinate -=10;
+                    break;
+                case "rigth":
+                    xCordinate += 10;
+                    break;
+                case "":
+                    break;
+            }
+            GameArea.Invalidate();
+            if (xCordinate < 0 | xCordinate > GameArea.Width - 50 | yCordinate < 0 | yCordinate > GameArea.Height - 50)
+            {
+                MessageBox.Show("ты сломался");
+                //конец
+            }
+            ApplesEating();
+        }
+       
+
+    }
+    public class Tail
+    {
+        public int X;
+        public int Y;
+        public Tail(int x , int y)
+        {
+            X = x;
+            Y = y;
         }
     }
 }

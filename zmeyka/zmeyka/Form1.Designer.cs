@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.text = new System.Windows.Forms.Label();
             this.GameArea = new System.Windows.Forms.PictureBox();
+            this.TimerWork = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.GameArea)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,6 +54,11 @@
             this.GameArea.TabStop = false;
             this.GameArea.Paint += new System.Windows.Forms.PaintEventHandler(this.Paint);
             // 
+            // TimerWork
+            // 
+            this.TimerWork.Enabled = true;
+            this.TimerWork.Tick += new System.EventHandler(this.WorkTimer);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -72,6 +79,7 @@
 
         private System.Windows.Forms.Label text;
         private System.Windows.Forms.PictureBox GameArea;
+        private System.Windows.Forms.Timer TimerWork;
     }
 }
 
